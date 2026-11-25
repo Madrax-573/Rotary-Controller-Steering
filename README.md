@@ -57,8 +57,8 @@ This is not an exhaustive compatibility list. Feedback from other driving simula
 
 - Windows 10/11 (64-bit)
 - A compatible physical gamepad
-- HIDMaestro
-- HidHide
+- HIDMaestro - https://github.com/hifihedgehog/HIDMaestro
+- HidHide - https://github.com/nefarius/HidHide/releases
 - Administrator privileges when running the application
 
 The application uses HIDMaestro to create the virtual steering wheel and HidHide to manage physical controller visibility to games.
