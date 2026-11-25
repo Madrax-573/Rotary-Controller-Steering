@@ -1,0 +1,755 @@
+﻿<Window x:Class="RotaryControllerSteering.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Rotary Controller Steering"
+        MinHeight="650"
+        MinWidth="800"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        Background="#20242B">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+
+        <Grid Margin="24">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Application heading -->
+            <StackPanel Grid.Row="0" Margin="0,0,0,20">
+                <TextBlock Text="ROTARY CONTROLLER STEERING"
+                           FontSize="23"
+                           FontWeight="Bold"
+                           Foreground="White"/>
+
+                <TextBlock Text="Analogue rotational steering controller"
+                           FontSize="13"
+                           Foreground="#9DA7B5"
+                           Margin="0,5,0,0"/>
+            </StackPanel>
+
+            <!-- Controller status -->
+            <Border Grid.Row="1"
+                    Background="#303640"
+                    CornerRadius="8"
+                    Padding="16"
+                    Margin="0,0,0,20">
+                <StackPanel>
+                    <TextBlock Text="CONTROLLER STATUS"
+                               Foreground="#9DA7B5"
+                               FontSize="11"
+                               FontWeight="Bold"/>
+
+                    <TextBlock x:Name="ControllerStatusText"
+                               Text="Waiting for controller..."
+                               Foreground="#F0B44D"
+                               FontSize="16"
+                               Margin="0,8,0,0"/>
+                </StackPanel>
+            </Border>
+
+            <!-- Main steering display -->
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="0.8*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Physical controller displays -->
+                <Grid Grid.Column="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left stick - steering -->
+                    <StackPanel Grid.Column="0"
+                                HorizontalAlignment="Center">
+
+                        <TextBlock Text="LEFT STICK - STEERING"
+                                   Foreground="#9DA7B5"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock x:Name="AngleText"
+                                   Text="0.0°"
+                                   Foreground="White"
+                                   FontSize="30"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,8,0,0"/>
+
+                        <Canvas x:Name="StickCanvas"
+                                Width="280"
+                                Height="280"
+                                Margin="0,5,0,0">
+
+                            <Ellipse Width="220"
+                                     Height="220"
+                                     Stroke="#788493"
+                                     StrokeThickness="2"
+                                     Canvas.Left="30"
+                                     Canvas.Top="30"/>
+
+                            <Ellipse Width="33"
+                                     Height="33"
+                                     Stroke="#D69B42"
+                                     StrokeThickness="2"
+                                     StrokeDashArray="3 2"
+                                     Canvas.Left="123.5"
+                                     Canvas.Top="123.5"/>
+
+                            <Ellipse Width="6"
+                                     Height="6"
+                                     Fill="White"
+                                     Canvas.Left="137"
+                                     Canvas.Top="137"/>
+
+                            <Ellipse x:Name="StickDot"
+                                     Width="14"
+                                     Height="14"
+                                     Fill="#35C98B"
+                                     Stroke="White"
+                                     StrokeThickness="1"
+                                     Canvas.Left="133"
+                                     Canvas.Top="133"/>
+                        </Canvas>
+
+                        <TextBlock x:Name="StickDisplacementText"
+                                   Text="Displacement: 0%"
+                                   Foreground="#D69B42"
+                                   FontSize="13"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,5,0,8"/>
+
+                        <TextBlock x:Name="RawAxisText"
+                                   Text="Raw X: 0    Raw Y: 0"
+                                   Foreground="#9DA7B5"
+                                   FontSize="11"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+
+                    <!-- Right stick - monitor -->
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Center">
+
+                        <TextBlock Text="RIGHT STICK - MONITOR"
+                                   Foreground="#9DA7B5"
+                                   FontSize="12"
+                                   FontWeight="Bold"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock x:Name="RightStickPositionText"
+                                   Text="Centre"
+                                   Foreground="White"
+                                   FontSize="30"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,8,0,0"/>
+
+                        <Canvas x:Name="RightStickCanvas"
+                                Width="280"
+                                Height="280"
+                                Margin="0,5,0,0">
+
+                            <Ellipse Width="220"
+                                     Height="220"
+                                     Stroke="#788493"
+                                     StrokeThickness="2"
+                                     Canvas.Left="30"
+                                     Canvas.Top="30"/>
+
+                            <Ellipse Width="33"
+                                     Height="33"
+                                     Stroke="#D69B42"
+                                     StrokeThickness="2"
+                                     StrokeDashArray="3 2"
+                                     Canvas.Left="123.5"
+                                     Canvas.Top="123.5"/>
+
+                            <Ellipse Width="6"
+                                     Height="6"
+                                     Fill="White"
+                                     Canvas.Left="137"
+                                     Canvas.Top="137"/>
+
+                            <Ellipse x:Name="RightStickDot"
+                                     Width="14"
+                                     Height="14"
+                                     Fill="#F0B44D"
+                                     Stroke="White"
+                                     StrokeThickness="1"
+                                     Canvas.Left="133"
+                                     Canvas.Top="133"/>
+                        </Canvas>
+
+                        <TextBlock x:Name="RightStickDisplacementText"
+                                   Text="Displacement: 0%"
+                                   Foreground="#D69B42"
+                                   FontSize="13"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,5,0,8"/>
+
+                        <TextBlock x:Name="RightRawAxisText"
+                                   Text="Raw X: 0    Raw Y: 0"
+                                   Foreground="#9DA7B5"
+                                   FontSize="11"
+                                   HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Steering processor display -->
+                <Border Grid.Column="1"
+                        Background="#303640"
+                        CornerRadius="10"
+                        Padding="20"
+                        Margin="8,30,0,10">
+
+                    <StackPanel>
+                        <TextBlock Text="STEERING PROCESSOR"
+                                   Foreground="#9DA7B5"
+                                   FontSize="13"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,22"/>
+
+                        <TextBlock Text="REQUESTED STEERING"
+                                   Foreground="#9DA7B5"
+                                   FontSize="11"
+                                   FontWeight="Bold"/>
+
+                        <TextBlock x:Name="RequestedSteeringText"
+                                   Text="0.0°"
+                                   Foreground="#F0B44D"
+                                   FontSize="30"
+                                   Margin="0,5,0,20"/>
+
+                        <TextBlock Text="ACTUAL STEERING"
+                                   Foreground="#9DA7B5"
+                                   FontSize="11"
+                                   FontWeight="Bold"/>
+
+                        <TextBlock x:Name="ActualSteeringText"
+                                   Text="0.0°"
+                                   Foreground="#35C98B"
+                                   FontSize="30"
+                                   Margin="0,5,0,20"/>
+
+                        <Separator Background="#505965"
+                                   Margin="0,0,0,18"/>
+
+                        <TextBlock Text="STEERING SPEED"
+                                   Foreground="#9DA7B5"
+                                   FontSize="11"
+                                   FontWeight="Bold"/>
+
+                        <TextBlock x:Name="SteeringSpeedText"
+                                   Text="900° / sec"
+                                   Foreground="White"
+                                   FontSize="20"
+                                   Margin="0,5,0,20"/>
+
+                        <TextBlock Text="STEERING POSITION"
+                                   Foreground="#9DA7B5"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Margin="0,0,0,10"/>
+
+                        <Grid x:Name="SteeringIndicatorCanvas"
+                              Height="70"
+                              HorizontalAlignment="Stretch"
+                              ClipToBounds="True">
+
+                            <Rectangle Height="4"
+                                       Fill="#788493"
+                                       RadiusX="2"
+                                       RadiusY="2"
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Center"
+                                       Margin="15,0"/>
+
+                            <Rectangle Width="2"
+                                       Height="24"
+                                       Fill="White"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"/>
+
+                            <Ellipse x:Name="SteeringIndicatorDot"
+                                     Width="14"
+                                     Height="14"
+                                     Fill="#35C98B"
+                                     Stroke="White"
+                                     StrokeThickness="1"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Margin="0"/>
+                        </Grid>
+
+                        <Grid Margin="0,5,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock x:Name="LeftSteeringLimitText"
+                                       Grid.Column="0"
+                                       Text="-450°"
+                                       Foreground="#9DA7B5"
+                                       FontSize="11"/>
+
+                            <TextBlock Grid.Column="1"
+                                       Text="0°"
+                                       Foreground="#9DA7B5"
+                                       FontSize="11"
+                                       HorizontalAlignment="Center"/>
+
+                            <TextBlock x:Name="RightSteeringLimitText"
+                                       Grid.Column="2"
+                                       Text="+450°"
+                                       Foreground="#9DA7B5"
+                                       FontSize="11"
+                                       HorizontalAlignment="Right"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!-- Steering configuration - primary controls -->
+            <Border Grid.Row="3"
+                    Background="#303640"
+                    CornerRadius="8"
+                    Padding="16"
+                    Margin="0,10,0,5">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0"
+                               Text="STEERING CONFIGURATION"
+                               Foreground="#9DA7B5"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Margin="0,0,0,12"/>
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0" Margin="5">
+                            <TextBlock Text="Physical rotation"
+                                       Foreground="White"
+                                       FontSize="12"/>
+
+                            <TextBlock x:Name="PhysicalRotationValue"
+                                       Text="170°"
+                                       Foreground="#F0B44D"
+                                       FontSize="18"
+                                       Margin="0,4"/>
+
+                            <Slider x:Name="PhysicalRotationSlider"
+                                    Minimum="30"
+                                    Maximum="180"
+                                    Value="170"
+                                    TickFrequency="1"
+                                    IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="5">
+                            <TextBlock Text="Virtual range"
+                                       Foreground="White"
+                                       FontSize="12"/>
+
+                            <TextBlock x:Name="VirtualRangeValue"
+                                       Text="900°"
+                                       Foreground="#F0B44D"
+                                       FontSize="18"
+                                       Margin="0,4"/>
+
+                            <Slider x:Name="VirtualRangeSlider"
+                                    Minimum="360"
+                                    Maximum="1080"
+                                    Value="900"
+                                    TickFrequency="10"
+                                    IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="5">
+                            <TextBlock Text="Steering speed"
+                                       Foreground="White"
+                                       FontSize="12"/>
+
+                            <TextBlock x:Name="SteeringSpeedValue"
+                                       Text="900°/sec"
+                                       Foreground="#F0B44D"
+                                       FontSize="18"
+                                       Margin="0,4"/>
+
+                            <Slider x:Name="SteeringSpeedSlider"
+                                    Minimum="90"
+                                    Maximum="1200"
+                                    Value="900"
+                                    TickFrequency="10"
+                                    IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="3" Margin="5">
+                            <TextBlock Text="Steering deadzone"
+                                       Foreground="White"
+                                       FontSize="12"/>
+
+                            <TextBlock x:Name="SteeringDeadzoneValue"
+                                       Text="2.5%"
+                                       Foreground="#F0B44D"
+                                       FontSize="18"
+                                       Margin="0,4"/>
+
+                            <Slider x:Name="SteeringDeadzoneSlider"
+                                    Minimum="0"
+                                    Maximum="20"
+                                    Value="2.5"
+                                    TickFrequency="0.5"
+                                    IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="4" Margin="5">
+                            <TextBlock Text="Linearity"
+                                       Foreground="White"
+                                       FontSize="12"/>
+
+                            <TextBlock x:Name="LinearityValue"
+                                       Text="1.00"
+                                       Foreground="#F0B44D"
+                                       FontSize="18"
+                                       Margin="0,4"/>
+
+                            <Slider x:Name="LinearitySlider"
+                                    Minimum="1.0"
+                                    Maximum="3.0"
+                                    Value="1.0"
+                                    TickFrequency="0.05"
+                                    IsSnapToTickEnabled="True"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- Controller input monitor - secondary controls -->
+            <Border Grid.Row="4"
+                    Background="#303640"
+                    CornerRadius="8"
+                    Padding="18"
+                    Margin="0,10,0,5">
+
+                <StackPanel>
+                    <TextBlock Text="CONTROLLER INPUT MONITOR"
+                               Foreground="#9DA7B5"
+                               FontSize="12"
+                               FontWeight="Bold"
+                               Margin="0,0,0,16"/>
+
+                    <!-- Face buttons and shoulders -->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="FACE BUTTONS"
+                                       Foreground="#9DA7B5"
+                                       FontSize="10"
+                                       Margin="0,0,0,8"/>
+
+                            <UniformGrid Columns="4">
+                                <Border x:Name="ButtonSouth"
+                                        Background="#454D59"
+                                        CornerRadius="6"
+                                        Padding="10"
+                                        Margin="3">
+                                    <TextBlock Text="A" Foreground="White"
+                                               FontSize="16" FontWeight="Bold"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+
+                                <Border x:Name="ButtonEast"
+                                        Background="#454D59"
+                                        CornerRadius="6"
+                                        Padding="10"
+                                        Margin="3">
+                                    <TextBlock Text="B" Foreground="White"
+                                               FontSize="16" FontWeight="Bold"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+
+                                <Border x:Name="ButtonWest"
+                                        Background="#454D59"
+                                        CornerRadius="6"
+                                        Padding="10"
+                                        Margin="3">
+                                    <TextBlock Text="X" Foreground="White"
+                                               FontSize="16" FontWeight="Bold"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+
+                                <Border x:Name="ButtonNorth"
+                                        Background="#454D59"
+                                        CornerRadius="6"
+                                        Padding="10"
+                                        Margin="3">
+                                    <TextBlock Text="Y" Foreground="White"
+                                               FontSize="16" FontWeight="Bold"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+                            </UniformGrid>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Margin="15,0,0,0">
+                            <TextBlock Text="SHOULDERS"
+                                       Foreground="#9DA7B5"
+                                       FontSize="10"
+                                       Margin="0,0,0,8"/>
+
+                            <UniformGrid Columns="2">
+                                <Border x:Name="ButtonL1"
+                                        Background="#454D59"
+                                        CornerRadius="6"
+                                        Padding="10"
+                                        Margin="3">
+                                    <TextBlock Text="L1" Foreground="White"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+
+                                <Border x:Name="ButtonR1"
+                                        Background="#454D59"
+                                        CornerRadius="6"
+                                        Padding="10"
+                                        Margin="3">
+                                    <TextBlock Text="R1" Foreground="White"
+                                               HorizontalAlignment="Center"/>
+                                </Border>
+                            </UniformGrid>
+                        </StackPanel>
+                    </Grid>
+
+                    <Separator Background="#505965" Margin="0,14"/>
+
+                    <!-- Other buttons -->
+                    <TextBlock Text="OTHER BUTTONS"
+                               Foreground="#9DA7B5"
+                               FontSize="10"
+                               Margin="0,0,0,8"/>
+
+                    <UniformGrid Columns="6">
+                        <Border x:Name="ButtonBack" Background="#454D59" CornerRadius="5" Padding="8" Margin="3">
+                            <TextBlock Text="Share" Foreground="White" HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <Border x:Name="ButtonStart" Background="#454D59" CornerRadius="5" Padding="8" Margin="3">
+                            <TextBlock Text="Options" Foreground="White" HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <Border x:Name="ButtonGuide" Background="#454D59" CornerRadius="5" Padding="8" Margin="3">
+                            <TextBlock Text="PS" Foreground="White" HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <Border x:Name="ButtonL3" Background="#454D59" CornerRadius="5" Padding="8" Margin="3">
+                            <TextBlock Text="L3" Foreground="White" HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <Border x:Name="ButtonR3" Background="#454D59" CornerRadius="5" Padding="8" Margin="3">
+                            <TextBlock Text="R3" Foreground="White" HorizontalAlignment="Center"/>
+                        </Border>
+
+                        <Border x:Name="ButtonTouchpad" Background="#454D59" CornerRadius="5" Padding="8" Margin="3">
+                            <TextBlock Text="Touch" Foreground="White" HorizontalAlignment="Center"/>
+                        </Border>
+                    </UniformGrid>
+
+                    <Separator Background="#505965" Margin="0,14"/>
+
+                    <!-- Compact D-pad with vertical trigger gauges -->
+                    <TextBlock Text="D-PAD &amp; ANALOGUE TRIGGERS"
+                               Foreground="#9DA7B5"
+                               FontSize="10"
+                               Margin="0,0,0,12"/>
+
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="65"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="65"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- L2 trigger gauge -->
+                        <StackPanel Grid.Column="0"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+
+                            <TextBlock Text="L2"
+                                       Foreground="White"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,6"/>
+
+                            <ProgressBar x:Name="LeftTriggerBar"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         Value="0"
+                                         Width="10"
+                                         Height="90"
+                                         Orientation="Vertical"
+                                         FlowDirection="RightToLeft"
+                                         Foreground="#35C98B"
+                                         Background="#454D59"
+                                         BorderThickness="0"/>
+
+                            <TextBlock x:Name="LeftTriggerValue"
+                                       Text="0%"
+                                       Foreground="#9DA7B5"
+                                       FontSize="11"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,6,0,0"/>
+                        </StackPanel>
+
+                        <!-- D-pad -->
+                        <Grid Grid.Column="1"
+                              VerticalAlignment="Center"
+                              Margin="22,0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="25"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border x:Name="DPadUp"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Background="#454D59"
+                                    CornerRadius="4"
+                                    Margin="1">
+                                <TextBlock Text="↑"
+                                           Foreground="White"
+                                           FontSize="14"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <Border x:Name="DPadLeft"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Background="#454D59"
+                                    CornerRadius="4"
+                                    Margin="1">
+                                <TextBlock Text="←"
+                                           Foreground="White"
+                                           FontSize="14"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <Border Grid.Row="1"
+                                    Grid.Column="1"
+                                    Background="#454D59"
+                                    CornerRadius="4"
+                                    Margin="1">
+                                <TextBlock Text="•"
+                                           Foreground="#9DA7B5"
+                                           FontSize="14"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <Border x:Name="DPadRight"
+                                    Grid.Row="1"
+                                    Grid.Column="2"
+                                    Background="#454D59"
+                                    CornerRadius="4"
+                                    Margin="1">
+                                <TextBlock Text="→"
+                                           Foreground="White"
+                                           FontSize="14"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+
+                            <Border x:Name="DPadDown"
+                                    Grid.Row="2"
+                                    Grid.Column="1"
+                                    Background="#454D59"
+                                    CornerRadius="4"
+                                    Margin="1">
+                                <TextBlock Text="↓"
+                                           Foreground="White"
+                                           FontSize="14"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
+
+                        <!-- R2 trigger gauge -->
+                        <StackPanel Grid.Column="2"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+
+                            <TextBlock Text="R2"
+                                       Foreground="White"
+                                       FontSize="12"
+                                       FontWeight="Bold"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,0,0,6"/>
+
+                            <ProgressBar x:Name="RightTriggerBar"
+                                         Minimum="0"
+                                         Maximum="100"
+                                         Value="0"
+                                         Width="10"
+                                         Height="90"
+                                         Orientation="Vertical"
+                                         FlowDirection="RightToLeft"
+                                         Foreground="#35C98B"
+                                         Background="#454D59"
+                                         BorderThickness="0"/>
+
+                            <TextBlock x:Name="RightTriggerValue"
+                                       Text="0%"
+                                       Foreground="#9DA7B5"
+                                       FontSize="11"
+                                       HorizontalAlignment="Center"
+                                       Margin="0,6,0,0"/>
+                        </StackPanel>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <!-- Footer -->
+            <TextBlock Grid.Row="5"
+                       Text="Rotary Controller Steering | Development Build 0.3"
+                       Foreground="#77818F"
+                       FontSize="11"
+                       HorizontalAlignment="Right"
+                       Margin="0,15,0,0"/>
+
+        </Grid>
+    </ScrollViewer>
+</Window>
