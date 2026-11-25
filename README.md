@@ -33,7 +33,7 @@ This is an experimental project and is still under development.
 The following controllers have been tested successfully:
 
 - Sony DualSense (USB)
-- 8BitDo Ultimate 2C
+- 8BitDo Ultimate 2C (USB)
 
 Additional controller compatibility testing is welcome.
 
